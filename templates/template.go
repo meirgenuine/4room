@@ -6,27 +6,20 @@ import (
 	"path"
 )
 
-var (
-	basePath = "templates"
-)
-
-func init() {
-	// You can set a different base path for the templates here if needed
-}
-
 func RenderTemplate(w http.ResponseWriter, tmpl string, data interface{}) {
-	tmplPath := path.Join(basePath, tmpl+".html")
-	baseTemplatePath := path.Join(basePath, "base.html")
+	lp := path.Join("templates", "base.html")
+	fp := path.Join("templates", tmpl+".html")
 
-	t, err := template.ParseFiles(baseTemplatePath, tmplPath)
+	// Parse both the specific template file and the base layout together
+	t, err := template.ParseFiles(lp, fp)
 	if err != nil {
-		http.Error(w, "Error rendering template: "+err.Error(), http.StatusInternalServerError)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
+	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	err = t.ExecuteTemplate(w, "base", data)
 	if err != nil {
-		http.Error(w, "Error executing template: "+err.Error(), http.StatusInternalServerError)
-		return
+		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
 }

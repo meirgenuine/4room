@@ -1,3 +1,4 @@
+{{define "base"}}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,13 +9,23 @@
 </head>
 <body>
     <header>
-        <!-- Navigation and authentication links -->
+        <nav>
+            <a href="/">Home</a>
+            {{if .User}}
+                <a href="/logout">Logout</a>
+                <a href="/create_post">Create Post</a>
+            {{else}}
+                <a href="/register">Register</a>
+                <a href="/login">Login</a>
+            {{end}}
+        </nav>
     </header>
     <main>
         {{template "content" .}}
     </main>
     <footer>
-        <!-- Footer content -->
+        <p>&copy; 4room - 2023. All rights reserved.</p>
     </footer>
 </body>
 </html>
+{{end}}

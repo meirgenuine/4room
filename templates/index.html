@@ -1,3 +1,14 @@
 {{define "content"}}
-    <!-- Page-specific content goes here -->
+    <h1>All Posts</h1>
+    <div class="posts">
+        {{range .Posts}}
+            <div class="post">
+                <h2>{{.Title}}</h2>
+                <p>{{.Content}}</p>
+                <p>Author: {{.User.Username}}</p>
+                <p>Created at: {{.CreatedAt}}</p>
+                <a href="/view_post?id={{.ID}}">View Post</a>
+            </div>
+        {{end}}
+    </div>
 {{end}}

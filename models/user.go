@@ -13,14 +13,14 @@ type User struct {
 	PasswordHash string
 }
 
-type userContextKey struct{}
+type UserContextKey struct{}
 
 func NewUserContext(ctx context.Context, user *User) context.Context {
-	return context.WithValue(ctx, userContextKey{}, user)
+	return context.WithValue(ctx, UserContextKey{}, user)
 }
 
 func UserFromContext(ctx context.Context) *User {
-	user, _ := ctx.Value(userContextKey{}).(*User)
+	user, _ := ctx.Value(UserContextKey{}).(*User)
 	return user
 }
 
@@ -31,7 +31,6 @@ func CreateUser(db *sql.DB, user *User) error {
 
 	query := `INSERT INTO users (email, username, password_hash) VALUES (?, ?, ?)`
 	result, err := db.Exec(query, user.Email, user.Username, user.PasswordHash)
-
 	if err != nil {
 		return err
 	}

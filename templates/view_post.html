@@ -1,3 +1,27 @@
 {{define "content"}}
-    <!-- Page-specific content goes here -->
+    <div class="post">
+        <h1>{{.Post.Title}}</h1>
+        <p>{{.Post.Content}}</p>
+        <p>Author: {{.Post.User.Username}}</p>
+        <p>Created at: {{.Post.CreatedAt}}</p>
+    </div>
+    <div class="comments">
+        <h2>Comments</h2>
+        {{range .Comments}}
+            <div class="comment">
+                <p>{{.Content}}</p>
+                <p>Author: {{.User.Username}}</p>
+                <p>Created at: {{.CreatedAt}}</p>
+            </div>
+        {{end}}
+    </div>
+    {{if .Authenticated}}
+        <form method="POST" action="/add_comment?post_id={{.Post.ID}}">
+            <label for="content">Add a comment:</label>
+            <textarea name="content" id="content" required></textarea>
+            <button type="submit">Submit</button>
+        </form>
+    {{else}}
+        <p><a href="/login">Login</a> to post a comment.</p>
+    {{end}}
 {{end}}

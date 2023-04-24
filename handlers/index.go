@@ -1,10 +1,11 @@
 package handlers
 
 import (
+	"net/http"
+
 	"4room/database"
 	"4room/models"
 	"4room/templates"
-	"net/http"
 )
 
 func Index(w http.ResponseWriter, r *http.Request) {
@@ -18,9 +19,11 @@ func Index(w http.ResponseWriter, r *http.Request) {
 	data := struct {
 		Title string
 		Posts []models.Post
+		User  *models.User
 	}{
 		Title: "4room - Home",
 		Posts: posts,
+		User:  models.UserFromContext(r.Context()),
 	}
 
 	templates.RenderTemplate(w, "index", &data)

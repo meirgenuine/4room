@@ -1,11 +1,13 @@
 package main
 
 import (
+	"log"
+	"net/http"
+
 	"4room/config"
 	"4room/database"
 	"4room/handlers"
 	"4room/middleware"
-	"net/http"
 )
 
 func main() {
@@ -30,9 +32,10 @@ func main() {
 	mux.Handle("/static/", http.StripPrefix("/static", fs))
 
 	server := &http.Server{
-		Addr:    config.ServerConf.Address,
+		Addr:    "localhost:8080",
 		Handler: mux,
 	}
 
-	server.ListenAndServe()
+	log.Printf("Server started at http://%s\n", server.Addr)
+	log.Fatal(server.ListenAndServe())
 }

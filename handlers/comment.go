@@ -1,11 +1,12 @@
 package handlers
 
 import (
-	"4room/database"
-	"4room/models"
 	"encoding/json"
 	"net/http"
 	"strconv"
+
+	"4room/database"
+	"4room/models"
 )
 
 func AddComment(w http.ResponseWriter, r *http.Request) {
@@ -14,7 +15,8 @@ func AddComment(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	user, ok := r.Context().Value("user").(*models.User)
+	user, ok := r.Context().Value(models.UserContextKey{}).(*models.User)
+
 	if !ok {
 		http.Error(w, "Unauthorized", http.StatusUnauthorized)
 		return
